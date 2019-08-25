@@ -33,29 +33,41 @@ class Compiler extends Component {
       input: this.state.input
     };
 
-    if (this.props.props) {
-      axios
-        .post(`api/users/${this.props.props}`, obj)
-        .then(data => {
-          this.setState({
-            output: data.data.stdout ? data.data.stdout : data.data.stderr,
-            input: this.state.input
-          });
-          console.log(data);
-        })
-        .catch(err => console.log(err));
-    } else {
-      axios
-        .post(`api/users/2`, obj)
-        .then(data => {
-          this.setState({
-            output: data.data.stdout ? data.data.stdout : data.data.stderr,
-            input: this.state.input
-          });
-          console.log(data);
-        })
-        .catch(err => console.log(err));
-    }
+    axios
+      .post(`api/users/`, obj)
+      .then(data => {
+        this.setState({
+          // output: data.data.stdout ? data.data.stdout : data.data.stderr,
+          output: data.data.output,
+          input: this.state.input
+        });
+        console.log(data);
+      })
+      .catch(err => console.log(err));
+
+    // if (this.props.props) {
+    //   axios
+    //     .post(`api/users/${this.props.props}`, obj)
+    //     .then(data => {
+    //       this.setState({
+    //         output: data.data.stdout ? data.data.stdout : data.data.stderr,
+    //         input: this.state.input
+    //       });
+    //       console.log(data);
+    //     })
+    //     .catch(err => console.log(err));
+    // } else {
+    //   axios
+    //     .post(`api/users/2`, obj)
+    //     .then(data => {
+    //       this.setState({
+    //         output: data.data.stdout ? data.data.stdout : data.data.stderr,
+    //         input: this.state.input
+    //       });
+    //       console.log(data);
+    //     })
+    //     .catch(err => console.log(err));
+    // }
   };
 
   render() {

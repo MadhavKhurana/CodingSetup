@@ -15,6 +15,7 @@ router.post("/", (req, res) => {
 
   var program = {
     script: lol,
+    stdin: req.body.input,
     language: "c",
     versionIndex: "0",
     clientId: "11295542ae86a0068063c00c7eeeb923",
