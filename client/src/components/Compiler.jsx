@@ -3,6 +3,7 @@ import axios from "axios";
 import "./Compiler.css";
 import Helmet from "react-helmet";
 import { NavLink } from "react-router-dom";
+import { saveAs } from "file-saver";
 // import "./compiler.js";
 
 class Compiler extends Component {
@@ -12,6 +13,22 @@ class Compiler extends Component {
     input: "",
     sampleInput: "7\n2 4 5 1 7 4 3",
     sampleOutput: "1 2 3 4 4 5 7"
+  };
+
+  createAndDownloadPdf = () => {
+    axios
+      .post("/create-pdf", this.state)
+      .then(() => {
+        axios
+          .get("fetch-pdf", { responseType: "blob" })
+          .then(res => {
+            const pdfBlob = new Blob([res.data], { type: "application/pdf" });
+
+            saveAs(pdfBlob, "code.pdf");
+          })
+          .catch(err => console.log(err));
+      })
+      .catch(err => console.log(err));
   };
 
   codeChange = e => {
@@ -125,6 +142,16 @@ class Compiler extends Component {
           </nav>
         </div>
         {/* <div id="main">...</div> */}
+        <div align="right">
+          {/* <button
+            className="btn btn-danger"
+            onClick={this.createAndDownloadPdf}
+          >
+            Download PDF
+          </button> */}
+          &nbsp;
+        </div>
+
         <h1>{this.props.props}</h1>
         <br />
         {this.props.props ? (

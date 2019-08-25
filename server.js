@@ -3,6 +3,9 @@ const mongoose = require("mongoose");
 const path = require("path");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
+const pdf = require("html-pdf");
+
+const pdfTemplate = require("./docs");
 
 const users = require("./routes/api/users.js");
 const profile = require("./routes/api/profile.js");
@@ -29,6 +32,18 @@ mongoose
 //Use Routes
 
 app.use("/api/users", users);
+app.post("/create-pdf", (req, res) => {
+  pdf.create(pdfTemplate(), {}).toFile("result.pdf", err => {
+    if (err) {
+      return Promise.reject();
+    }
+    return Promise.resolve();
+  });
+});
+
+app.get("/fetch-pdf", (req, res) => {
+  res.sendFile("${__dirname}/result.pdf");
+});
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
